@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Upload Alerts</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',
+filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<button
+class="theme-btn floating-theme"
+id="themeToggle">
+🌙
+</button>
+
+<div class="sidebar">
+
+<div class="logo">
+ThreatLens
+</div>
+
+<div class="menu">
+
+<a href="/">Dashboard</a>
+
+<a href="/alerts">Alerts</a>
+
+<a href="/upload">Upload Alerts</a>
+
+<a href="/incidents">Incidents</a>
+
+<a href="/threat-intel">Threat Intel</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<h1>Security Log Ingestion</h1>
+
+<p class="hero-subtitle">
+Upload alerts for ThreatLens analysis engine
+</p>
+
+<div class="upload-panel">
+
+<h2>Upload Security Logs</h2>
+
+<form method="POST"
+      enctype="multipart/form-data">
+
+    <div class="upload-box">
+
+        <div class="upload-icon">
+            📂
+        </div>
+
+        <p>
+            Drag & Drop CSV File
+        </p>
+
+        <p class="small-text">
+            or click below
+        </p>
+
+        <input
+            type="file"
+            name="file"
+            required>
+
+    </div>
+
+    <br>
+
+    <button
+        type="submit"
+        class="upload-btn">
+
+        Upload & Analyze
+
+    </button>
+
+</form>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="panel">
+
+<h2>Supported Formats</h2>
+
+<ul>
+<li>✅ CSV Logs</li>
+<li>🚧 JSON Logs (Coming Soon)</li>
+<li>🚧 Syslog (Coming Soon)</li>
+</ul>
+
+</div>
+
+<div class="panel">
+
+<h2>Pipeline</h2>
+
+<ul>
+<li>📥 Upload</li>
+<li>⚙ Parse</li>
+<li>🧠 Detect</li>
+<li>🎯 Prioritize</li>
+<li>📋 Create Incident</li>
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const btn =
+document.getElementById(
+'themeToggle');
+
+if(localStorage.getItem("theme")
+=== "light"){
+
+document.body.classList
+.add("light-theme");
+
+btn.textContent="☀️";
+
+}
+
+btn.addEventListener(
+'click',()=>{
+
+document.body.classList
+.toggle('light-theme');
+
+if(document.body.classList
+.contains('light-theme')){
+
+localStorage.setItem(
+"theme",
+"light"
+);
+
+btn.textContent="☀️";
+
+}else{
+
+localStorage.setItem(
+"theme",
+"dark"
+);
+
+btn.textContent="🌙";
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ThreatLens - Investigation</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',
+filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<button
+class="theme-btn floating-theme"
+id="themeToggle">
+🌙
+</button>
+
+<div class="sidebar">
+
+    <div class="logo">
+        ThreatLens
+    </div>
+
+    <div class="menu">
+
+        <a href="/">Dashboard</a>
+
+        <a href="/alerts">Alerts</a>
+
+        <a href="/upload">Upload Alerts</a>
+
+        <a href="/incidents">Incidents</a>
+
+        <a href="/threat-intel">Threat Intel</a>
+
+    </div>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<div>
+
+<h1 class="hero-title">
+🔎 Incident Investigation
+</h1>
+
+<p class="hero-subtitle">
+ThreatLens SOC Investigation Workspace
+</p>
+
+</div>
+
+</div>
+
+<div class="cards investigation-cards">
+
+    <div class="card">
+        <h3>Incident ID</h3>
+        <p>INC-{{ incident[0] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Risk Score</h3>
+        <p>{{ incident[3] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Priority</h3>
+        <p>{{ incident[4] }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Status</h3>
+        {% if incident[5] == "NEW" %}
+<p class="status-new">NEW</p>
+
+{% elif incident[5] == "TRIAGED" %}
+<p class="status-triaged">TRIAGED</p>
+
+{% elif incident[5] == "INVESTIGATING" %}
+<p class="status-investigating">INVESTIGATING</p>
+
+{% elif incident[5] == "CONTAINED" %}
+<p class="status-contained">CONTAINED</p>
+
+{% else %}
+<p class="status-resolved">RESOLVED</p>
+
+{% endif %}
+    </div>
+
+</div>
+
+<br>
+
+<div class="dashboard-grid">
+
+    <div class="panel">
+
+        <h2>Incident Overview</h2>
+
+        <br>
+
+        <p><b>Source IP:</b> {{ incident[1] }}</p>
+
+        <p><b>Attack Type:</b> {{ incident[2] }}</p>
+
+        <p><b>Risk Score:</b> {{ incident[3] }}</p>
+
+        <p><b>Priority:</b> {{ incident[4] }}</p>
+
+        <p><b>Status:</b> {{ incident[5] }}</p>
+
+    </div>
+
+    <div class="panel">
+
+        <h2>Why Prioritized?</h2>
+
+        <br>
+
+        <p>+35 Alert Severity</p>
+
+        <p>+25 Threat Intelligence</p>
+
+        <p>+15 Asset Criticality</p>
+
+        <p>+10 Attack Frequency</p>
+
+        <p>+9 MITRE Technique</p>
+
+        <hr>
+
+        <h3>
+        Final Risk Score: {{ incident[3] }}
+        </h3>
+
+    </div>
+
+    <div class="panel">
+
+        <h2>Timeline</h2>
+
+        <br>
+
+        <div class="timeline-event">
+        22:01 - Port Scan Detected
+        </div>
+
+        <div class="timeline-event">
+        22:02 - Failed Login Attempts
+        </div>
+
+        <div class="timeline-event">
+        22:03 - Malicious Activity Detected
+        </div>
+
+        <div class="timeline-event">
+        22:04 - Risk Score Increased
+        </div>
+
+        <div class="timeline-event">
+        22:05 - Incident Created
+        </div>
+
+    </div>
+
+    <div class="panel">
+
+    <h2>Incident Workflow</h2>
+
+    <br>
+
+    <div class="action-grid">
+
+        <a href="/update_status/{{ incident[0] }}/TRIAGED">
+            <button class="investigate-btn">
+                TRIAGED
+            </button>
+        </a>
+
+        <a href="/update_status/{{ incident[0] }}/INVESTIGATING">
+            <button class="investigate-btn">
+                INVESTIGATING
+            </button>
+        </a>
+
+        <a href="/update_status/{{ incident[0] }}/CONTAINED">
+            <button class="investigate-btn">
+                CONTAINED
+            </button>
+        </a>
+
+        <a href="/update_status/{{ incident[0] }}/RESOLVED">
+            <button class="investigate-btn">
+                RESOLVED
+            </button>
+        </a>
+
+    </div>
+
+    <br>
+    <hr>
+    <br>
+
+    <h2>Recommended Actions</h2>
+
+    <br>
+
+    <div class="action-grid">
+
+        {% for action in actions %}
+
+        <button class="investigate-btn">
+
+            {{ action }}
+
+        </button>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const btn =
+document.getElementById(
+'themeToggle');
+
+if(localStorage.getItem("theme")
+=== "light"){
+
+document.body.classList
+.add("light-theme");
+
+btn.textContent="☀️";
+
+}
+
+btn.addEventListener(
+'click',()=>{
+
+document.body.classList
+.toggle('light-theme');
+
+if(document.body.classList
+.contains('light-theme')){
+
+localStorage.setItem(
+"theme",
+"light"
+);
+
+btn.textContent="☀️";
+
+}else{
+
+localStorage.setItem(
+"theme",
+"dark"
+);
+
+btn.textContent="🌙";
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

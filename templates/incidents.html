@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ThreatLens - Incidents</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',
+filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<button
+class="theme-btn floating-theme"
+id="themeToggle">
+🌙
+</button>
+
+<div class="sidebar">
+
+    <div class="logo">
+        ThreatLens
+    </div>
+
+    <div class="menu">
+
+        <a href="/">Dashboard</a>
+
+        <a href="/alerts">Alerts</a>
+
+        <a href="/upload">Upload Alerts</a>
+
+        <a href="/incidents">Incidents</a>
+
+        <a href="/threat-intel">Threat Intel</a>
+
+    </div>
+
+</div>
+
+<div class="main">
+
+    <h1>Incident Management</h1>
+
+    <br>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Incidents</h3>
+            <p>{{ incidents|length }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Open</h3>
+            <p>{{ incidents|length }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Critical</h3>
+            <p>1</p>
+        </div>
+
+        <div class="card">
+            <h3>Investigating</h3>
+            <p>0</p>
+        </div>
+
+    </div>
+
+    <br>
+
+    <table
+    style="width:100%;
+           border-collapse:collapse;">
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Source IP</th>
+
+                <th>Type</th>
+
+                <th>Risk Score</th>
+
+                <th>Priority</th>
+
+                <th>Status</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for incident in incidents %}
+
+            <tr>
+
+                <td>
+                INC-{{ incident[0] }}
+                </td>
+
+                <td>
+                {{ incident[1] }}
+                </td>
+
+                <td>
+                {{ incident[2] }}
+                </td>
+
+                <td>
+
+                <div class="risk-score">
+
+                {{ incident[3] }}
+
+                </div>
+
+                </td>
+
+                <td>
+
+                {% if incident[4] == "Critical" %}
+
+                <span class="critical-badge">
+                🔴 Critical
+                </span>
+
+                {% elif incident[4] == "High" %}
+
+                <span class="high-badge">
+                🟠 High
+                </span>
+
+                {% elif incident[4] == "Medium" %}
+
+                <span class="medium-badge">
+                🟡 Medium
+                </span>
+
+                {% else %}
+
+                <span class="low-badge">
+                🟢 Low
+                </span>
+
+                {% endif %}
+
+                </td>
+
+                <td>
+
+                {% if incident[5] == "NEW" %}
+
+                <span class="status-new">
+                NEW
+                </span>
+
+                {% elif incident[5] == "TRIAGED" %}
+
+                <span class="status-triaged">
+                TRIAGED
+                </span>
+
+                {% elif incident[5] == "INVESTIGATING" %}
+
+                <span class="status-investigating">
+                INVESTIGATING
+                </span>
+
+                {% elif incident[5] == "CONTAINED" %}
+
+                <span class="status-contained">
+                CONTAINED
+                </span>
+
+                {% else %}
+
+                <span class="status-resolved">
+                RESOLVED
+                </span>
+
+                {% endif %}
+
+                </td>
+
+                <td>
+
+                <a href="/incident/{{ incident[0] }}">
+
+                    <button class="investigate-btn">
+
+                    View
+
+                    </button>
+
+                </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+const btn =
+document.getElementById(
+'themeToggle');
+
+if(localStorage.getItem("theme")
+=== "light"){
+
+document.body.classList
+.add("light-theme");
+
+btn.textContent="☀️";
+
+}
+
+btn.addEventListener(
+'click',()=>{
+
+document.body.classList
+.toggle('light-theme');
+
+if(document.body.classList
+.contains('light-theme')){
+
+localStorage.setItem(
+"theme",
+"light"
+);
+
+btn.textContent="☀️";
+
+}else{
+
+localStorage.setItem(
+"theme",
+"dark"
+);
+
+btn.textContent="🌙";
+
+}
+
+});
+
+</script>
+
+</body>
+</html>

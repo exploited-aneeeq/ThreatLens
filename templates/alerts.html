@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Alerts</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',
+filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+ThreatLens
+</div>
+
+<div class="menu">
+
+<a href="/">Dashboard</a>
+<a href="/alerts">Alerts</a>
+<a href="/upload">Upload Alerts</a>
+<a href="/incidents">Incidents</a>
+<a href="/threat-intel">Threat Intel</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+
+<h1>Alert Queue</h1>
+
+<button
+class="theme-btn"
+id="themeToggle">
+🌙
+</button>
+
+</div>
+
+<br>
+
+<div class="toolbar">
+
+<input
+type="text"
+placeholder="Search IP, Alert Type...">
+
+<select>
+<option>All Severity</option>
+<option>Critical</option>
+<option>High</option>
+<option>Medium</option>
+<option>Low</option>
+</select>
+
+</div>
+
+<table>
+
+<tr>
+<th>Severity</th>
+<th>Alert Type</th>
+<th>Source IP</th>
+<th>Risk</th>
+<th>MITRE</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+{% for alert in alerts %}
+
+<tr>
+
+<td>
+
+{% if alert[3] == "critical" %}
+<span class="critical-badge">🔴 Critical</span>
+
+{% elif alert[3] == "high" %}
+<span class="high-badge">🟠 High</span>
+
+{% elif alert[3] == "medium" %}
+<span class="medium-badge">🟡 Medium</span>
+
+{% else %}
+<span class="low-badge">🟢 Low</span>
+
+{% endif %}
+
+</td>
+
+<td>{{ alert[2] }}</td>
+
+<td>{{ alert[1] }}</td>
+
+<td>85</td>
+
+<td>T1110</td>
+
+<td>
+<span class="status-open">
+Open
+</span>
+</td>
+
+<td>
+<button class="investigate-btn">
+Investigate
+</button>
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<script>
+
+const btn =
+document.getElementById(
+'themeToggle');
+
+if(localStorage.getItem("theme")
+=== "light"){
+
+document.body.classList
+.add("light-theme");
+
+btn.textContent="☀️";
+
+}
+
+btn.addEventListener(
+'click',()=>{
+
+document.body.classList
+.toggle('light-theme');
+
+if(document.body.classList
+.contains('light-theme')){
+
+localStorage.setItem(
+"theme",
+"light"
+);
+
+btn.textContent="☀️";
+
+}else{
+
+localStorage.setItem(
+"theme",
+"dark"
+);
+
+btn.textContent="🌙";
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

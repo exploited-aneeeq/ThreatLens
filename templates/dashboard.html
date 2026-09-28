@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>ThreatLens</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',
+filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        ThreatLens
+    </div>
+
+    <div class="menu">
+
+        <a href="/">Dashboard</a>
+
+        <a href="/alerts">Alerts</a>
+
+        <a href="/upload">Upload Alerts</a>
+
+        <a href="/incidents">Incidents</a>
+
+        <a href="/threat-intel">Threat Intel</a>
+
+    </div>
+
+</div>
+
+<div class="main">
+
+    <div class="topbar">
+
+        <div>
+
+            <h1 class="hero-title">
+                ThreatLens
+            </h1>
+
+            <p class="hero-subtitle">
+                SOC Alert Triage & Prioritization Engine
+            </p>
+
+        </div>
+
+        <button
+        class="theme-btn"
+        id="themeToggle">
+            🌙
+        </button>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Alerts</h3>
+            <p>{{ total_alerts }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Open Incidents</h3>
+            <p>{{ open_incidents }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Critical Incidents</h3>
+            <p>{{ critical_incidents }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Blocked IPs</h3>
+            <p>0</p>
+        </div>
+
+    </div>
+
+    <div class="dashboard-grid">
+
+        <!-- Threat Feed -->
+
+        <div class="panel">
+
+            <h2>Threat Feed</h2>
+
+            <ul>
+
+                <li>🔴 Malicious IP Match</li>
+                <li>🟠 Port Scan Detected</li>
+                <li>🟡 Suspicious Login</li>
+                <li>🔵 Brute Force Attempt</li>
+
+            </ul>
+
+        </div>
+
+        <!-- Severity Analytics -->
+
+<div class="panel">
+
+    <h2>Severity Analytics</h2>
+
+    <div class="severity-list">
+
+        <div class="severity-item">
+
+            <div class="severity-header">
+                <span>Critical</span>
+                <span>{{ critical_count }}</span>
+            </div>
+
+            <div class="severity-bar critical"
+                style="width:{{ critical_width }}%">
+            </div>
+
+        </div>
+
+        <div class="severity-item">
+
+            <div class="severity-header">
+                <span>High</span>
+                <span>{{ high_count }}</span>
+            </div>
+
+            <div class="severity-bar high-bar"
+                 style="width:{{ high_width }}%">
+            </div>
+
+        </div>
+
+        <div class="severity-item">
+
+            <div class="severity-header">
+                <span>Medium</span>
+                <span>{{ medium_count }}</span>
+            </div>
+
+            <div class="severity-bar medium-bar"
+                 style="width:{{ medium_width }}%">
+            </div>
+
+        </div>
+
+        <div class="severity-item">
+
+            <div class="severity-header">
+                <span>Low</span>
+                <span>{{ low_count }}</span>
+            </div>
+
+            <div class="severity-bar low-bar"
+                 style="width:{{ low_width }}%">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+        <!-- Recent Incidents -->
+
+        <div class="panel">
+
+            <h2>Recent Incidents</h2>
+
+            <ul>
+
+                <li>192.168.1.10 → Brute Force</li>
+                <li>192.168.1.50 → Port Scan</li>
+                <li>192.168.1.80 → Malicious IP</li>
+
+            </ul>
+
+        </div>
+
+        <!-- MITRE -->
+
+        <div class="panel">
+
+            <h2>MITRE ATT&CK Mapping</h2>
+
+            <ul>
+
+                <li>T1110 → Brute Force</li>
+                <li>T1046 → Port Scan</li>
+                <li>T1583 → Malicious IP</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const btn =
+document.getElementById(
+'themeToggle');
+
+btn.addEventListener(
+'click',()=>{
+
+document.body.classList
+.toggle('light-theme');
+
+btn.textContent =
+document.body.classList
+.contains('light-theme')
+? '☀️'
+: '🌙';
+
+});
+
+</script>
+
+</body>
+
+</html>
